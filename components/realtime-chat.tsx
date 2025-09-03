@@ -30,7 +30,6 @@ export const RealtimeChat = ({ user, displayName }: RealtimeChatProps) => {
     // Scroll to bottom whenever messages change
     scrollToBottom();
   }, [messages, scrollToBottom]);
-  console.log(messages, "messages");
 
   const handleSendMessage = useCallback(
     (e: React.FormEvent) => {
@@ -42,6 +41,8 @@ export const RealtimeChat = ({ user, displayName }: RealtimeChatProps) => {
     },
     [newMessage, isConnected, sendMessage]
   );
+
+  const disabled = !isConnected || !user;
 
   return (
     <div className="flex flex-col h-[calc(100vh-73px)] w-full bg-background text-foreground antialiased">
@@ -83,14 +84,14 @@ export const RealtimeChat = ({ user, displayName }: RealtimeChatProps) => {
           type="text"
           value={newMessage}
           onChange={(e) => setNewMessage(e.target.value)}
-          placeholder="Type a message..."
-          disabled={!isConnected || !user}
+          placeholder={disabled ? "You must be logged in to comment" : "Post a new comment..."}
+          disabled={disabled}
         />
         {isConnected && newMessage.trim() && (
           <Button
             className="aspect-square rounded-full animate-in fade-in slide-in-from-right-4 duration-300"
             type="submit"
-            disabled={!isConnected}
+            disabled={disabled}
           >
             <Send className="size-4" />
           </Button>

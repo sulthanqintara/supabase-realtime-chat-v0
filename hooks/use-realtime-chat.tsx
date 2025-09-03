@@ -17,6 +17,7 @@ export interface ChatMessage {
   created_at: string;
   profiles?: {
     display_name: string;
+    role: string;
   };
 }
 
@@ -24,7 +25,6 @@ export function useRealtimeChat({ roomName = "general", user }: UseRealtimeChatP
   const supabase = createClient();
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [isConnected, setIsConnected] = useState(false);
-  console.log(messages, "messages");
 
   useEffect(() => {
     const loadMessages = async () => {
@@ -37,7 +37,8 @@ export function useRealtimeChat({ roomName = "general", user }: UseRealtimeChatP
           user_id,
           created_at,
           profiles (
-            display_name
+            display_name,
+            role
           )
         `
         )
@@ -81,7 +82,8 @@ export function useRealtimeChat({ roomName = "general", user }: UseRealtimeChatP
               user_id,
               created_at,
               profiles (
-                display_name
+                display_name,
+                role
               )
             `
             )
@@ -92,7 +94,7 @@ export function useRealtimeChat({ roomName = "general", user }: UseRealtimeChatP
             console.log(data);
             const newMessage: ChatMessage = {
               ...data,
-              profiles: (data.profiles as unknown as { display_name: string }) || undefined,
+              profiles: (data.profiles as unknown as { display_name: string; role: string }) || undefined,
             };
             setMessages((current) => [...current, newMessage]);
           }
