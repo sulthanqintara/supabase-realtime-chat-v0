@@ -40,7 +40,8 @@ export default function Page() {
         },
       })
       if (error) throw error
-      router.push("/")
+      window.alert("Check your email for the confirmation link!")
+      router.push("/auth/login")
     } catch (error: unknown) {
       setError(error instanceof Error ? error.message : "An error occurred")
     } finally {
