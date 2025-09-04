@@ -1,0 +1,13 @@
+name: Supabase Keep Alive
+
+on:
+  schedule:
+    - cron: 0 0 * * * 
+
+jobs:
+  keep-alive:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send request to Supabase server
+        run: |
+          curl -X GET https://idobuebesuujamihkksh.supabase.co
